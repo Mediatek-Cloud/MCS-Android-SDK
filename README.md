@@ -1,11 +1,11 @@
 # MCS SDK for Android with Tutorial
 
-[ ![jCenter](https://api.bintray.com/packages/mtk-mcs/maven/MCS-Android/images/download.svg) ](https://bintray.com/mtk-mcs/maven/MCS-Android/_latestVersion)
-[ ![License](http://img.shields.io/:license-apache-blue.svg) ](https://github.com/Mediatek-Cloud/mcs-sdk-android/blob/master/LICENSE)
+[![jCenter][jcenter-svg]][jcenter-latest]
+[![License][license-svg]][license-link]
 
 A quick start that guide you through MCS SDK for Android (or equivalently MCS Android SDK). 
 
-The MCS SDK for Android enables you to build Android apps to interact with the powerful [MediaTek Cloud Sandbox (MCS)](https://mcs.mediatek.com/) platform for IoT devices. Features including:
+The MCS SDK for Android enables you to build Android apps to interact with the powerful [MediaTek Cloud Sandbox (MCS)][mcs] platform for IoT devices. Features including:
 
 * Auth: Manage access tokens for MCS.
 * Enable push notifications on mobile devices.
@@ -22,29 +22,29 @@ The MCS SDK for Android is still under development. Though it's tested and mostl
 
 Before install MCS SDK for Android, please prepare as the following:
 
-1. Signup for an [MCS](https://mcs.mediatek.com/) Account.
+1. Signup for an [MCS][mcs] Account.
 2. Obtain your **CLIENT_ID** 
-from the [Service Provider](https://mcs.mediatek.com/v2console/console/profile) section of your MCS Profile. 
+from the [Service Provider][mcs-service-provider] section of your MCS Profile. 
 3. Create your first prototype and device.
-4. Review the [MCS API Documentation](https://mcs.mediatek.com/resources/latest/api_references/).
+4. Review the [MCS API Documentation][mcs-api].
 
 
 ## Download
 
-Download [the latest JAR](https://bintray.com/mtk-mcs/maven/MCS-Android/_latestVersion) or define in Gradle:
+Download [the latest JAR][jcenter-latest] or define in Gradle:
 
-```
+```groovy
 compile 'com.mediatek.mcs:mcs-android:0.0.2'
 ```
 
 For the SNAPSHOT version:
 
-```
+```groovy
 compile 'com.mediatek.mcs:mcs-android:0.0.3-SNAPSHOT'
 ```
-Snapshots of the development version are available in [JFrog's snapshots repository](http://oss.jfrog.org/oss-snapshot-local/). So it's necessary to add the repository: 
+Snapshots of the development version are available in [JFrog's snapshots repository][jfrog-snapshot]. So it's necessary to add the repository: 
 
-```
+```groovy
 maven { url "http://oss.jfrog.org/oss-snapshot-local/" }	
 ```
 
@@ -68,7 +68,7 @@ It depends on whether you need the push notification feature.
 Call `Mcs.initialize` from the `onCreate` method of your `Application` class to set your application id and client key:
 
 
-```
+```java
 public class TutorialApplication extends Application {
   @Override public void onCreate() {
     // Add this lines in your extended Application class
@@ -81,25 +81,25 @@ public class TutorialApplication extends Application {
 
 First, specify the application you just set
 
-```
-  <!--
-    IMPORTANT: Change ".TutorialApplication" in the lines below
-    to match your application class.
-  -->
+```xml
+<!--
+  IMPORTANT: Change ".TutorialApplication" in the lines below
+  to match your application class.
+-->
 <application
-      android:name=".TutorialApplication"
-      android:allowBackup="true"
-      android:icon="@mipmap/ic_launcher"
-      android:label="@string/app_name"
-      android:theme="@style/AppTheme"
-      >
+    android:name=".TutorialApplication"
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:theme="@style/AppTheme"
+    >
 ```
 
 NOTE: Change the `android:name` attribute of `<application>` tag above to match your application class.
 
 3) DONE! Compile and run your app.
 
-The above codes are minimum requirement to setup MCS SDK, please reference to other code in this tutorial project or [MCS Android Tutorial Doc](https://www.gitbook.com/book/mtk-mcs/mcs-android-tutorial-doc/details) for more customization.
+The above codes are minimum requirement to setup MCS SDK, please reference to other code in this tutorial project or [MCS SDK Android Tutorial Doc][tutorial-doc] for more customization.
 
 
 
@@ -107,13 +107,13 @@ The above codes are minimum requirement to setup MCS SDK, please reference to ot
 
 > Follow this section if you NEED the push notification feature
 
-0) Create your own GCM project and get your **GCM_SENDER_ID** and **GCM_API_KEY** from Google Developers Console according to the guide of [Google Cloud Messaging](https://developers.google.com/cloud-messaging/).
+0) Create your own GCM project and get your **GCM_SENDER_ID** and **GCM_API_KEY** from Google Developers Console according to the guide of [Google Cloud Messaging][gcm].
 
 1) Initialize in `Application` class
 
 Call `Mcs.initialize` from the `onCreate` method of your `Application` class to set your application id and client key:
 
-```
+```java
 public class TutorialApplication extends Application {
   @Override public void onCreate() {
     // Add these lines in your extended Application class
@@ -129,18 +129,18 @@ public class TutorialApplication extends Application {
 
 First, specify the application you just set
 
-```
-  <!--
-    IMPORTANT: Change ".TutorialApplication" in the lines below
-    to match your application class.
-  -->
+```xml
+<!--
+  IMPORTANT: Change ".TutorialApplication" in the lines below
+  to match your application class.
+-->
 <application
-      android:name=".TutorialApplication"
-      android:allowBackup="true"
-      android:icon="@mipmap/ic_launcher"
-      android:label="@string/app_name"
-      android:theme="@style/AppTheme"
-      >
+    android:name=".TutorialApplication"
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:theme="@style/AppTheme"
+    >
 ```
 
 NOTE: Change the `android:name` attribute of `<application>` tag above to match your application class.
@@ -148,7 +148,7 @@ NOTE: Change the `android:name` attribute of `<application>` tag above to match 
 
 Secondly, add the permissions below, typically immediately before the opening `<application>` tag:
 
-```
+```xml
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -157,9 +157,9 @@ Secondly, add the permissions below, typically immediately before the opening `<
 <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
 
-  <!--
-    IMPORTANT: Change "com.mediatek.mcstutorial.permission.C2D_MESSAGE" in the lines below
-    to match your app's package name + ".permission.C2D_MESSAGE".
+<!--
+  IMPORTANT: Change "com.mediatek.mcstutorial.permission.C2D_MESSAGE" in the lines below
+  to match your app's package name + ".permission.C2D_MESSAGE".
   -->
 <permission
     android:name="com.mediatek.mcstutorial.permission.C2D_MESSAGE"
@@ -172,7 +172,7 @@ NOTE: Change the `android:name` attribute of `<category>` element above to match
 
 Then, add the following service and broadcast receiver definitions to AndroidManifest.xml immediately before the closing `</application>` tag:
 
-```
+```xml
 <service android:name="com.mediatek.mcs.push.PushService"/>
 
 <receiver
@@ -204,12 +204,12 @@ NOTE: Change the `android:name` attribute of `<category>` element above to match
 
 3) DONE! Compile and run your app.
 
-The above codes are minimum requirement to setup MCS SDK, please reference to other code in this tutorial project or [MCS Android Tutorial Doc](https://www.gitbook.com/book/mtk-mcs/mcs-android-tutorial-doc/details) for more customization.
+The above codes are minimum requirement to setup MCS SDK, please reference to other code in this tutorial project or [MCS SDK Android Tutorial Doc][tutorial-doc] for more customization.
 
 
 ### ProGuard
 
-> Follow the instructions in this section only if your app obfuscates with [Android ProGuard](http://developer.android.com/intl/zh-tw/tools/help/proguard.html). Otherwise, skip this section.
+> Follow the instructions in this section only if your app obfuscates with [Android ProGuard][android-proguard]. Otherwise, skip this section.
 
 If you are using ProGuard to obfuscate your app, please be noted that MCS Android SDK uses Gson to dynamically serializes/deserializes entities fetch from MCS API server, so it's necessary to keep them for reflection.
 
@@ -224,13 +224,14 @@ Add the following lines to your project’s `proguard.cfg` file:
 
 ## Usage
 
-- [MCS SDK Android Tutorial Doc](https://www.gitbook.com/book/mtk-mcs/mcs-sdk-android-tutorial-doc/details) for detailed tutorial documentation.
-- [MCS SDK Android Guide](https://www.gitbook.com/book/mtk-mcs/mcs-sdk-android-guide-doc/details) for detailed SDK components documentation.
-- [MCS API References](https://mcs.mediatek.com/resources/latest/api_references/) for RESTful API documentation.
+- [MCS SDK Android Tutorial Doc][tutorial-doc] for detailed tutorial documentation.
+- [MCS SDK Android Guide][guide-doc] for detailed SDK components documentation.
+- [MCS API References][mcs-api] for RESTful API documentation.
+
 
 ## Versioning
 
-This SDK aims to adhere to [Semantic Versioning 2.0.0](http://semver.org/). As a summary, given a version number `MAJOR.MINOR.PATCH`:
+This SDK aims to adhere to [Semantic Versioning 2.0.0][semantic-version-2.0]. As a summary, given a version number `MAJOR.MINOR.PATCH`:
 
 1. `MAJOR` will increment when backwards-incompatible changes are introduced to the client.
 2. `MINOR` will increment when backwards-compatible functionality is added.
@@ -239,9 +240,11 @@ Additional labels for pre-release and build metadata are available as extensions
 
 Note: the client version does not necessarily reflect the version used in the MCS API.
 
+
 ## Contact
 
-If you have any problems, please contact <mtkcloudsandbox@mediatek.com> or open an issue. Also, check [our forum](http://labs.mediatek.com/forums/forums/show/68.page) for some discussion.
+If you have any problems, please contact <mtkcloudsandbox@mediatek.com> or open an issue. Also, check [our forum][mcs-forum] for some discussion.
+
 
 ## License
 
@@ -262,3 +265,23 @@ limitations under the License.
 ```
 
 The sample code of this tutorial is provided under the Apache License 2.0. See LICENSE file for applicable terms. This material also follows [Legal Notice](http://www.mediatek.com/en/legal-notice/) and [Privacy Policy](http://www.mediatek.com/en/privacy-policy/) on MediaTek website.
+
+
+
+[mcs]: https://mcs.mediatek.com
+[mcs-api]: https://mcs.mediatek.com/resources/latest/api_references
+[mcs-service-provider]: https://mcs.mediatek.com/v2console/console/profile
+[mcs-forum]: http://labs.mediatek.com/forums/forums/show/68.page
+
+[tutorial-doc]: https://www.gitbook.com/book/mtk-mcs/mcs-sdk-android-tutorial-doc/details
+[guide-doc]: https://www.gitbook.com/book/mtk-mcs/mcs-sdk-android-guide/details
+
+[jfrog-snapshot]: http://oss.jfrog.org/oss-snapshot-local/
+[jcenter-svg]: https://api.bintray.com/packages/mtk-mcs/maven/MCS-Android/images/download.svg
+[jcenter-latest]: https://bintray.com/mtk-mcs/maven/MCS-Android/_latestVersion
+[license-svg]: https://img.shields.io/hexpm/l/plug.svg
+[license-link]: https://github.com/Mediatek-Cloud/mcs-sdk-android/blob/master/LICENSE
+
+[gcm]: https://developers.google.com/cloud-messaging/
+[android-proguard]: http://developer.android.com/intl/zh-tw/tools/help/proguard.html
+[semantic-version-2.0]: http://semver.org/

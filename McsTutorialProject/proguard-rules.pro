@@ -15,3 +15,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Keep Mcs Android SDK
+-keepattributes Signature, *Annotation*, EnclosingMethod
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.** { *; }
+-keep public class com.mediatek.mcs.entity.** { *; }

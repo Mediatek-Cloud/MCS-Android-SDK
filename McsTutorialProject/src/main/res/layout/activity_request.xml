@@ -1,0 +1,74 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        >
+
+        <Button
+            android:id="@+id/btn_req_devices"
+            android:text="GET devices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_req_device_detail"
+            android:text="GET device detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_show_data_channel"
+            android:text="show 1st data channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <Switch
+            android:visibility="gone"
+            android:id="@+id/switch_socket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="socket of 1st data channel"
+            android:textOn="ON"
+            android:textOff="OFF"
+            android:showText="true"
+            android:checked="false"
+            />
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_submit_data_point"
+            android:text="submit data point of 1st data channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/et_submit_data_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="String type data point"
+            />
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:text="@string/hello_world"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+</ScrollView>

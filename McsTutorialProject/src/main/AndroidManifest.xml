@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mediatek.mcstutorial"
+    >
+
+  <!-- To Enable McsPushService -->
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.WAKE_LOCK"/>
+  <uses-permission android:name="android.permission.VIBRATE"/>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+  <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+
+  <!--
+    IMPORTANT: Change "com.mediatek.mcstutorial.permission.C2D_MESSAGE" in the lines below
+    to match your app's package name + ".permission.C2D_MESSAGE".
+  -->
+  <permission
+      android:name="com.mediatek.mcstutorial.permission.C2D_MESSAGE"
+      android:protectionLevel="signature"
+      />
+  <uses-permission android:name="com.mediatek.mcstutorial.permission.C2D_MESSAGE"/>
+
+  <application
+      android:name=".TutorialApplication"
+      android:allowBackup="true"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:theme="@style/AppTheme"
+      >
+
+    <!-- Enable McsPush -->
+    <service android:name="com.mediatek.mcs.push.PushService"/>
+
+    <receiver
+        android:name="com.mediatek.mcs.push.McsPushBroadcastReceiver"
+        android:exported="false"
+        >
+      <intent-filter>
+        <action android:name="com.mediatek.mcs.push.intent.RECEIVE"/>
+        <action android:name="com.mediatek.mcs.push.intent.DISMISS"/>
+        <action android:name="com.mediatek.mcs.push.intent.OPEN"/>
+      </intent-filter>
+    </receiver>
+    <receiver
+        android:name="com.mediatek.mcs.push.GcmBroadcastReceiver"
+        android:permission="com.google.android.c2dm.permission.SEND"
+        >
+      <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+        <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+        <!--
+          IMPORTANT: Change "com.mediatek.mcstutorial" to match your app's package name.
+        -->
+        <category android:name="com.mediatek.mcstutorial"/>
+      </intent-filter>
+    </receiver>
+
+    <!-- Customize your own notification icon -->
+    <meta-data
+        android:name="com.mediatek.mcs.push.notification_icon"
+        android:resource="@mipmap/ic_launcher"
+        />
+
+
+    <activity
+        android:name=".MainActivity"
+        android:label="@string/app_name"
+        >
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+
+    <activity android:name=".RequestActivity" />
+  </application>
+
+</manifest>

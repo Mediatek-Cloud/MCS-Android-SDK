@@ -2,7 +2,7 @@ package com.mediatek.mcstutorial;
 
 import android.app.Application;
 import com.mediatek.mcs.Mcs;
-import com.mediatek.mcs.domain.McsPushInstallation;
+import com.mediatek.mcs.push.McsPushInstallation;
 import com.mediatek.mcs.push.PushService;
 
 public class TutorialApplication extends Application {
@@ -13,10 +13,11 @@ public class TutorialApplication extends Application {
     /**
      * Required: Initialize Mcs SDK with your
      * - Application context
-     * - CLIENT_ID
+     * - APP_ID
+     * - APP_SECRET
      * - (optional) isDebuggable
      */
-    Mcs.initialize(this, "YOUR_CLIENT_ID");
+    Mcs.initialize(this, "YOUR_APP_ID", "YOUR_APP_SECRET");
 
     /**
      * Optional: Enable debug messages on console.

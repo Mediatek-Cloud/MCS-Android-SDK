@@ -7,89 +7,98 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
+import com.google.gson.Gson;
+import com.mediatek.mcs.Utils.UIUtils;
+import com.mediatek.mcs.domain.McsDataChannel;
 import com.mediatek.mcs.domain.McsResponse;
-import com.mediatek.mcs.domain.McsSession;
-import com.mediatek.mcs.pref.McsUser;
+import com.mediatek.mcs.entity.DataChannelEntity;
+import com.mediatek.mcs.entity.DataPointEntity;
+import com.mediatek.mcs.entity.api.DeviceInfoEntity;
+import com.mediatek.mcs.entity.api.DeviceSummaryEntity;
+import com.mediatek.mcs.net.McsJsonRequest;
+import com.mediatek.mcs.net.RequestApi;
+import com.mediatek.mcs.net.RequestManager;
+import com.mediatek.mcs.socket.McsSocketListener;
+import com.mediatek.mcs.socket.SocketManager;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-  EditText et_email;
-  EditText et_pwd;
   TextView tv_info;
-  Button btn_sign_in;
-  Button btn_sign_out;
   Button btn_nav;
+  Button btn_req_devices;
+  Button btn_req_device_detail;
+  Button btn_show_data_channel;
+  Button btn_submit_data_point;
+  EditText et_submit_data_point;
+  Switch switch_socket;
+
+  String mDeviceId = "";
+  DeviceInfoEntity mDeviceInfo;
+  McsDataChannel mDataChannel;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_request);
 
-    this.et_email = (EditText) findViewById(R.id.et_email);
-    this.et_pwd = (EditText) findViewById(R.id.et_pwd);
     this.tv_info = (TextView) findViewById(R.id.tv_info);
-    this.btn_sign_in = (Button) findViewById(R.id.btn_sign_in);
-    this.btn_sign_out = (Button) findViewById(R.id.btn_sign_out);
     this.btn_nav = (Button) findViewById(R.id.btn_nav);
-
-    btn_sign_in.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        requestSignIn();
-      }
-    });
-
-    btn_sign_out.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        requestSignOut();
-      }
-    });
+    this.btn_req_devices = (Button) findViewById(R.id.btn_req_devices);
+    this.btn_req_device_detail = (Button) findViewById(R.id.btn_req_device_detail);
+    this.btn_show_data_channel = (Button) findViewById(R.id.btn_show_data_channel);
+    this.btn_submit_data_point = (Button) findViewById(R.id.btn_submit_data_point);
+    this.et_submit_data_point = (EditText) findViewById(R.id.et_submit_data_point);
+    this.switch_socket = (Switch) findViewById(R.id.switch_socket);
 
     btn_nav.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        final Intent intent = new Intent(MainActivity.this, RequestActivity.class);
+        final Intent intent = new Intent(MainActivity.this, SessionActivity.class);
         startActivity(intent);
       }
     });
-  }
 
-  private void requestSignIn() {
-    String email = et_email.getText().toString();
-    String pwd = et_pwd.getText().toString();
+    btn_req_devices.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        requestDevices();
+      }
+    });
 
-    McsSession.getInstance().requestSignIn(email, pwd,
-        new McsResponse.SuccessListener<JSONObject>() {
-          @Override public void onSuccess(JSONObject response) {
-            tv_info.setText("User sign in successfully: \n"
-                + "\nEmail:" + McsUser.getInstance().getEmail() + "\n"
-                + "\nAccess Token:" + McsUser.getInstance().getAccessToken());
-            btn_nav.setVisibility(View.VISIBLE);
-          }
-        },
-        /**
-         * Optional.
-         * Default error message would be shown in logcat.
-         */
-        new McsResponse.ErrorListener() {
-          @Override public void onError(Exception e) {
-            tv_info.setText(e.toString());
-          }
-        });
-  }
+    btn_req_device_detail.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        requestDeviceInfo(mDeviceId);
+      }
+    });
 
-  private void requestSignOut() {
-    McsSession.getInstance().requestSignOut(
-        new McsResponse.SuccessListener<JSONObject>() {
-          @Override public void onSuccess(JSONObject response) {
-            tv_info.setText("User sign out successfully: "
-                + McsUser.getInstance().getEmail().isEmpty() + ", "
-                + McsUser.getInstance().getPassword().isEmpty()
-            );
-            btn_nav.setVisibility(View.INVISIBLE);
-          }
+    btn_show_data_channel.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        showDataChannel(mDeviceInfo);
+      }
+    });
+
+    btn_submit_data_point.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        submitDataPoint();
+      }
+    });
+
+    switch_socket.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+          turnOnSocket();
+          btn_submit_data_point.setVisibility(View.VISIBLE);
+          et_submit_data_point.setVisibility(View.VISIBLE);
+        } else {
+          turnOffSocket();
+          btn_submit_data_point.setVisibility(View.GONE);
+          et_submit_data_point.setVisibility(View.GONE);
         }
-    );
+      }
+    });
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,5 +114,126 @@ public class MainActivity extends AppCompatActivity {
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  /**
+   * GET device list.
+   */
+  private void requestDevices() {
+    // Default method is GET
+    int method = McsJsonRequest.Method.GET;
+    String url = RequestApi.DEVICES;
+    McsResponse.SuccessListener<JSONObject> successListener =
+        new McsResponse.SuccessListener<JSONObject>() {
+          @Override public void onSuccess(JSONObject response) {
+            DeviceSummaryEntity[] summary = new Gson().fromJson(
+                response.toString(), DeviceSummaryEntity.class).getResults();
+
+            if (summary.length > 0) {
+              mDeviceId = summary[0].getDeviceId();
+              btn_req_device_detail.setVisibility(View.VISIBLE);
+            }
+
+            printJson(response);
+          }
+    };
+
+    /**
+     * Optional.
+     * Default error message would be shown in logcat.
+     */
+    McsResponse.ErrorListener errorListener = new McsResponse.ErrorListener() {
+      @Override public void onError(Exception e) {
+        tv_info.setText(e.toString());
+      }
+    };
+
+    McsJsonRequest request = new McsJsonRequest(method, url, successListener, errorListener);
+    RequestManager.sendInBackground(request);
+  }
+
+  /**
+   * GET device info.
+   */
+  private void requestDeviceInfo(String deviceId) {
+    McsJsonRequest request = new McsJsonRequest(
+        RequestApi.DEVICE
+            .replace("{deviceId}", deviceId),
+        new McsResponse.SuccessListener<JSONObject>() {
+          @Override public void onSuccess(JSONObject response) {
+            mDeviceInfo = UIUtils.getFormattedGson()
+                .fromJson(response.toString(), DeviceInfoEntity.class)
+                .getResults()[0];
+
+            btn_show_data_channel.setVisibility(View.VISIBLE);
+            printJson(response);
+          }
+        }
+    );
+
+    RequestManager.sendInBackground(request);
+  }
+
+  /**
+   * GET data channel
+   */
+  private void showDataChannel(DeviceInfoEntity deviceInfo) {
+    if (deviceInfo.getDataChannels().size() == 0) {
+      tv_info.setText("data channel is empty, please create one");
+      return ;
+    }
+
+    /**
+     * Optional.
+     * Default message of socket update shows in log.
+     */
+    McsSocketListener socketListener = new McsSocketListener(
+        new McsSocketListener.OnUpdateListener() {
+          @Override public void onUpdate(JSONObject data) {
+            printJson(data);
+          }
+        }
+    );
+    DataChannelEntity channelEntity = deviceInfo.getDataChannels().get(0);
+
+    mDataChannel = new McsDataChannel(deviceInfo, channelEntity, socketListener);
+
+    switch_socket.setVisibility(View.VISIBLE);
+    tv_info.setText(mDataChannel.getDeviceId() + ", " + mDataChannel.getDeviceKey() + "\n"
+        + mDataChannel.getChannelId() + ", " + mDataChannel.getChannelName() + "\n\n" + mDataChannel
+        .getDataChannelEntity()
+        .toString() + "\n" + mDataChannel.getDataPointEntity().toString());
+  }
+
+  /**
+   * Socket control of single data channel
+   */
+  private void turnOnSocket() {
+    SocketManager.connectSocket();
+    SocketManager.registerSocket(mDataChannel, mDataChannel.getMcsSocketListener());
+  }
+
+  private void turnOffSocket() {
+    SocketManager.unregisterSocket(mDataChannel, mDataChannel.getMcsSocketListener());
+    SocketManager.disconnectSocket();
+  }
+
+  /**
+   *
+   */
+  private void submitDataPoint() {
+    String data = et_submit_data_point.getText().toString();
+    mDataChannel.submitDataPoint(new DataPointEntity.Values(data));
+  }
+
+  /**
+   * Pretty-print a JSONObject.
+   */
+  private void printJson(JSONObject jsonObject) {
+    try {
+      tv_info.setText(jsonObject.toString(2));
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
   }
 }

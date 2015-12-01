@@ -23,7 +23,7 @@ The MCS SDK for Android is still under development. Though it's tested and mostl
 Before install MCS SDK for Android, please prepare as the following:
 
 1. Signup for an [MCS][mcs] Account.
-2. Obtain your **CLIENT_ID** 
+2. Obtain your **APP_ID** and **APP_SECRET**
 from the [Service Provider][mcs-service-provider] section of your MCS Profile. 
 3. Create your first prototype and device.
 4. Review the [MCS API Documentation][mcs-api].
@@ -34,13 +34,13 @@ from the [Service Provider][mcs-service-provider] section of your MCS Profile.
 Download [the latest JAR][jcenter-latest] or define in Gradle:
 
 ```groovy
-compile 'com.mediatek.mcs:mcs-android:0.0.2'
+compile 'com.mediatek.mcs:mcs-android:0.0.3'
 ```
 
 For the SNAPSHOT version:
 
 ```groovy
-compile 'com.mediatek.mcs:mcs-android:0.0.3-SNAPSHOT'
+compile 'com.mediatek.mcs:mcs-android:0.0.4-SNAPSHOT'
 ```
 Snapshots of the development version are available in [JFrog's snapshots repository][jfrog-snapshot]. So it's necessary to add the repository: 
 
@@ -51,12 +51,14 @@ maven { url "http://oss.jfrog.org/oss-snapshot-local/" }
 
 ## Setup
 
-There are 2 different ways to setup MCS SDK for Android,
+There are 2 different ways to setup MCS SDK for Android to your existing project,
 
-A. Setup without Push Installation
-B. Setup with Push Installation
+1. Setup without Push Installation
+2. Setup with Push Installation
 
 It depends on whether you need the push notification feature.
+
+To run tutorial, directly download the McsTutorialProject and config it with your **APP_ID** and **APP_SECRET**.
 
 
 ### A. Setup without Push Installation
@@ -72,7 +74,7 @@ Call `Mcs.initialize` from the `onCreate` method of your `Application` class to 
 public class TutorialApplication extends Application {
   @Override public void onCreate() {
     // Add this lines in your extended Application class
-    Mcs.initialize(this, "YOUR_CLIENT_ID");
+    Mcs.initialize(this, "YOUR_APP_ID", "YOUR_APP_SECRET");
   }
 }
 ```
@@ -117,7 +119,7 @@ Call `Mcs.initialize` from the `onCreate` method of your `Application` class to 
 public class TutorialApplication extends Application {
   @Override public void onCreate() {
     // Add these lines in your extended Application class
-    Mcs.initialize(this, "YOUR_CLIENT_ID");
+    Mcs.initialize(this, "YOUR_APP_ID", "YOUR_APP_SECRET");
     McsPushInstallation.getInstance().registerInBackground(
     	"YOUR_GCM_SENDER_ID", "YOUR_GCM_API_KEY"
     );
@@ -219,7 +221,13 @@ Add the following lines to your project’s `proguard.cfg` file:
 -keepattributes Signature, *Annotation*, EnclosingMethod
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.** { *; }
--keep public class com.mediatek.mcs.entity.** { *; }
+-keep public class com.mediatek.mcs.** { *; }
+
+# Add this if you use Push Installation
+-dontwarn com.google.android.gms.internal.**
+
+# Add this if you use Event Emit
+-keepclassmembers class ** { public void onEvent*(**); }
 ```
 
 ## Usage
@@ -264,7 +272,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-The sample code of this tutorial is provided under the Apache License 2.0. See LICENSE file for applicable terms. This material also follows [Legal Notice](http://www.mediatek.com/en/legal-notice/) and [Privacy Policy](http://www.mediatek.com/en/privacy-policy/) on MediaTek website.
+The sample code of this tutorial is provided under the Apache License 2.0. See LICENSE file for applicable terms. This material also follows [Legal Notice][legal-notice] and [Privacy Policy][privacy-policy] on MediaTek website.
 
 
 
@@ -285,3 +293,6 @@ The sample code of this tutorial is provided under the Apache License 2.0. See L
 [gcm]: https://developers.google.com/cloud-messaging/
 [android-proguard]: http://developer.android.com/intl/zh-tw/tools/help/proguard.html
 [semantic-version-2.0]: http://semver.org/
+
+[legal-notice]: http://www.mediatek.com/en/legal-notice/
+[privacy-policy]: http://www.mediatek.com/en/privacy-policy/

@@ -75,7 +75,7 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".RequestActivity" />
+    <activity android:name=".SessionActivity" />
   </application>
 
 </manifest>

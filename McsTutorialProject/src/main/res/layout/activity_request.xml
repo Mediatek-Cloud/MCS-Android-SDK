@@ -14,6 +14,13 @@
         >
 
         <Button
+            android:id="@+id/btn_nav"
+            android:text="Nav to SessionActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
             android:id="@+id/btn_req_devices"
             android:text="GET devices"
             android:layout_width="wrap_content"

@@ -1,11 +1,11 @@
-# MCS SDK for Android with Tutorial
+# MCS Android SDK: Getting Started
 
 [![jCenter][jcenter-svg]][jcenter-latest]
 [![License][license-svg]][license-link]
 
-A quick start that guide you through MCS SDK for Android (or equivalently MCS Android SDK). 
+A quick start that guide you through MCS Android SDK. 
 
-The MCS SDK for Android enables you to build Android apps to interact with the powerful [MediaTek Cloud Sandbox (MCS)][mcs] platform for IoT devices. Features including:
+The MCS Android SDK enables you to build Android apps to interact with the powerful [MediaTek Cloud Sandbox (MCS)][mcs] platform for IoT devices. Features including:
 
 * Auth: Manage access tokens for MCS.
 * Enable push notifications on mobile devices.
@@ -15,12 +15,12 @@ The MCS SDK for Android enables you to build Android apps to interact with the p
 
 #### Beta notice
 
-The MCS SDK for Android is still under development. Though it's tested and mostly API-stable, bugs and other issues might be present. The APIs are subject to change, too.
+The MCS Android SDK is still under development. Though it's tested and mostly API-stable, bugs and other issues might be present. The APIs are subject to change, too.
 
 
 ## Getting Started
 
-Before install MCS SDK for Android, please prepare as the following:
+Before install MCS Android SDK, please prepare as the following:
 
 1. Signup for an [MCS][mcs] Account.
 2. Obtain your **APP_ID** and **APP_SECRET**
@@ -51,7 +51,7 @@ maven { url "http://oss.jfrog.org/oss-snapshot-local/" }
 
 ## Setup
 
-There are 2 different ways to setup MCS SDK for Android to your existing project,
+There are 2 different ways to setup MCS Android SDK to your existing project,
 
 1. Setup without Push Installation
 2. Setup with Push Installation
@@ -101,7 +101,7 @@ NOTE: Change the `android:name` attribute of `<application>` tag above to match 
 
 3) DONE! Compile and run your app.
 
-The above codes are minimum requirement to setup MCS SDK, please reference to other code in this tutorial project or [MCS SDK Android Tutorial Doc][tutorial-doc] for more customization.
+The above codes are minimum requirement to setup MCS SDK, please reference to other code in this tutorial project or [MCS Android SDK Tutorial][tutorial-doc] for more customization.
 
 
 
@@ -206,7 +206,7 @@ NOTE: Change the `android:name` attribute of `<category>` element above to match
 
 3) DONE! Compile and run your app.
 
-The above codes are minimum requirement to setup MCS SDK, please reference to other code in this tutorial project or [MCS SDK Android Tutorial Doc][tutorial-doc] for more customization.
+The above codes are minimum requirement to setup MCS SDK, please reference to other code in this tutorial project or [MCS Android SDK Tutorial][tutorial-doc] for more customization.
 
 
 ### ProGuard
@@ -232,9 +232,9 @@ Add the following lines to your project’s `proguard.cfg` file:
 
 ## Usage
 
-- [MCS SDK Android Tutorial Doc][tutorial-doc] for detailed tutorial documentation.
-- [MCS SDK Android Guide][guide-doc] for detailed SDK components documentation.
-- [MCS API References][mcs-api] for RESTful API documentation.
+- [MCS Android SDK Tutorial][tutorial-doc] for detailed tutorial documentation.
+- [MCS Android SDK API References][api-doc] for detailed SDK components documentation.
+- [MCS API References][mcs-api] for MCS Server RESTful API documentation.
 
 
 ## Versioning
@@ -281,14 +281,14 @@ The sample code of this tutorial is provided under the Apache License 2.0. See L
 [mcs-service-provider]: https://mcs.mediatek.com/v2console/console/profile
 [mcs-forum]: http://labs.mediatek.com/forums/forums/show/68.page
 
-[tutorial-doc]: https://www.gitbook.com/book/mtk-mcs/mcs-sdk-android-tutorial-doc/details
-[guide-doc]: https://www.gitbook.com/book/mtk-mcs/mcs-sdk-android-guide/details
+[tutorial-doc]: https://www.gitbook.com/book/mtk-mcs/mcs-android-sdk-tutorial/details
+[api-doc]: https://www.gitbook.com/book/mtk-mcs/mcs-android-sdk-api/details
 
 [jfrog-snapshot]: http://oss.jfrog.org/oss-snapshot-local/
 [jcenter-svg]: https://api.bintray.com/packages/mtk-mcs/maven/MCS-Android/images/download.svg
 [jcenter-latest]: https://bintray.com/mtk-mcs/maven/MCS-Android/_latestVersion
 [license-svg]: https://img.shields.io/hexpm/l/plug.svg
-[license-link]: https://github.com/Mediatek-Cloud/mcs-sdk-android/blob/master/LICENSE
+[license-link]: https://github.com/Mediatek-Cloud/mcs-android-sdk/blob/master/LICENSE
 
 [gcm]: https://developers.google.com/cloud-messaging/
 [android-proguard]: http://developer.android.com/intl/zh-tw/tools/help/proguard.html

@@ -233,7 +233,7 @@ Add the following lines to your project’s `proguard.cfg` file:
 ## Usage
 
 - [MCS Android SDK Tutorial][tutorial-doc] for detailed tutorial documentation.
-- [MCS Android SDK API References][api-doc] for detailed SDK components documentation.
+- [MCS Android SDK API Reference][api-doc] for detailed SDK components documentation.
 - [MCS API References][mcs-api] for MCS Server RESTful API documentation.
 
 
@@ -282,7 +282,7 @@ The sample code of this tutorial is provided under the Apache License 2.0. See L
 [mcs-forum]: http://labs.mediatek.com/forums/forums/show/68.page
 
 [tutorial-doc]: https://www.gitbook.com/book/mtk-mcs/mcs-android-sdk-tutorial/details
-[api-doc]: https://www.gitbook.com/book/mtk-mcs/mcs-android-sdk-api/details
+[api-doc]: https://www.gitbook.com/book/mtk-mcs/mcs-android-sdk-api-reference/details
 
 [jfrog-snapshot]: http://oss.jfrog.org/oss-snapshot-local/
 [jcenter-svg]: https://api.bintray.com/packages/mtk-mcs/maven/MCS-Android/images/download.svg

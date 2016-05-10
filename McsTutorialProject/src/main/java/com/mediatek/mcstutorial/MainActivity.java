@@ -24,6 +24,7 @@ import com.mediatek.mcs.net.RequestApi;
 import com.mediatek.mcs.net.RequestManager;
 import com.mediatek.mcs.socket.McsSocketListener;
 import com.mediatek.mcs.socket.SocketManager;
+import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -126,11 +127,11 @@ public class MainActivity extends AppCompatActivity {
     McsResponse.SuccessListener<JSONObject> successListener =
         new McsResponse.SuccessListener<JSONObject>() {
           @Override public void onSuccess(JSONObject response) {
-            DeviceSummaryEntity[] summary = new Gson().fromJson(
+            List<DeviceSummaryEntity> summary = new Gson().fromJson(
                 response.toString(), DeviceSummaryEntity.class).getResults();
 
-            if (summary.length > 0) {
-              mDeviceId = summary[0].getDeviceId();
+            if (summary.size() > 0) {
+              mDeviceId = summary.get(0).getDeviceId();
               btn_req_device_detail.setVisibility(View.VISIBLE);
             }
 
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
           @Override public void onSuccess(JSONObject response) {
             mDeviceInfo = UIUtils.getFormattedGson()
                 .fromJson(response.toString(), DeviceInfoEntity.class)
-                .getResults()[0];
+                .getResults().get(0);
 
             btn_show_data_channel.setVisibility(View.VISIBLE);
             printJson(response);

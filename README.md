@@ -34,13 +34,13 @@ from the [Service Provider][mcs-service-provider] section of your MCS Profile.
 Download [the latest JAR][jcenter-latest] or define in Gradle:
 
 ```groovy
-compile 'com.mediatek.mcs:mcs-android:0.0.3'
+compile 'com.mediatek.mcs:mcs-android:0.1.0'
 ```
 
 For the SNAPSHOT version:
 
 ```groovy
-compile 'com.mediatek.mcs:mcs-android:0.0.4-SNAPSHOT'
+compile 'com.mediatek.mcs:mcs-android:0.1.1-SNAPSHOT'
 ```
 Snapshots of the development version are available in [JFrog's snapshots repository][jfrog-snapshot]. So it's necessary to add the repository: 
 

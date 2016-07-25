@@ -25,7 +25,6 @@ import com.mediatek.mcs.net.RequestManager;
 import com.mediatek.mcs.socket.McsSocketListener;
 import com.mediatek.mcs.socket.SocketManager;
 import java.util.List;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
@@ -200,10 +199,14 @@ public class MainActivity extends AppCompatActivity {
     mDataChannel = new McsDataChannel(deviceInfo, channelEntity, socketListener);
 
     switch_socket.setVisibility(View.VISIBLE);
-    tv_info.setText(mDataChannel.getDeviceId() + ", " + mDataChannel.getDeviceKey() + "\n"
-        + mDataChannel.getChannelId() + ", " + mDataChannel.getChannelName() + "\n\n" + mDataChannel
-        .getDataChannelEntity()
-        .toString() + "\n" + mDataChannel.getDataPointEntity().toString());
+    try {
+      tv_info.setText(mDataChannel.getDeviceId() + ", " + mDataChannel.getDeviceKey() + "\n"
+          + mDataChannel.getChannelId() + ", " + mDataChannel.getChannelName() + "\n\n" + mDataChannel
+          .getDataChannelEntity()
+          .toString() + "\n" + mDataChannel.getDataPointEntity().toString());
+    } catch (Exception e) {
+      printError(e);
+    }
   }
 
   /**
@@ -233,8 +236,18 @@ public class MainActivity extends AppCompatActivity {
   private void printJson(JSONObject jsonObject) {
     try {
       tv_info.setText(jsonObject.toString(2));
-    } catch (JSONException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
+      printError(e);
     }
+  }
+
+  private void printError(Exception e) {
+    tv_info.setText("Something went wrong, please check Logcat for detail info.\n"
+        + "Also, please "
+        + "1. Create Prototype \n"
+        + "2. Create Device \n"
+        + "3. Upload a datapoint \n" 
+        + "via https://mcs.mediatek.com");
+    e.printStackTrace();
   }
 }
